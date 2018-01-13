@@ -1,0 +1,41 @@
+{
+    "name": "Pomodoro Timer",
+    "displayName": "Pomodoro-Timer",
+    "description": "Pomodoro Technique support.",
+    "version": "0.0.1",
+    "publisher": "Brandon Soto",
+    "engines": {
+        "vscode": "^1.19.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:extension.startTimer",
+        "onCommand:extension.stopTimer"
+    ],
+    "main": "./extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "extension.startTimer",
+                "title": "Pomodoro: Start Timer"
+            },
+            {
+                "command": "extension.stopTimer",
+                "title": "Pomodoro: Stop Timer"
+            }
+        ]
+    },
+    "scripts": {
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^2.6.1",
+        "vscode": "^1.1.6",
+        "eslint": "^4.6.1",
+        "@types/node": "^7.0.43",
+        "@types/mocha": "^2.2.42"
+    }
+}
