@@ -2,3 +2,4 @@ node_modules
 .vscode-test/
 .vsix
 .eslintrc.json
+.vscode/settings.json
