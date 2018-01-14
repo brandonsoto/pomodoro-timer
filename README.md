@@ -1,4 +1,4 @@
-# Pomodoro Timer
+# Pomodoro Timer [![Build Status](https://travis-ci.org/brandonsoto/pomodoro-timer.svg?branch=master)](https://travis-ci.org/brandonsoto/pomodoro-timer)
 
 This is the README for your extension "pomodoro-timer". After writing up a brief description, we recommend including the following sections.
 
