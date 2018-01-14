@@ -1,9 +1,9 @@
 const vscode = require('vscode');
 
 class PomodoroTimer {
-    constructor(interval) {
+    constructor(interval=3000) { // TODO: change default to 25 minutes for release
         this.name = "Pomodoro";
-        this.interval = interval;
+        this.interval = vscode.workspace.getConfiguration("pomodoro").get("interval", interval);
         this.timeout = null;
         this.icon = '$(clock)';
         this.statusBarItem = PomodoroTimer.createStatusBarItem();
@@ -12,6 +12,7 @@ class PomodoroTimer {
     static createStatusBarItem() {
         let statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
         statusBarItem.text = "";
+        statusBarItem.command = "extension.showAll";
         statusBarItem.show();
         return statusBarItem;
     }

@@ -4,6 +4,18 @@
     "description": "Pomodoro Technique support",
     "version": "0.0.1",
     "publisher": "Brandon Soto",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/brandonsoto/pomodoro-timer"
+    },
+    "bugs": {
+        "url": "https://github.com/brandonsoto/pomodoro-timer/issues"
+    },
+    "keywords": [
+        "pomodoro",
+        "timer",
+        "productivity"
+    ],
     "engines": {
         "vscode": "^1.19.0"
     },
@@ -11,12 +23,22 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.startTimer",
-        "onCommand:extension.stopTimer"
+        "*"
     ],
     "main": "./extension",
     "license": "MIT",
     "contributes": {
+        "configurations": {
+            "type": "object",
+            "title": "Pomodoro",
+            "properties": {
+                "pomodoro.interval": {
+                    "type": "int",
+                    "default": "1500000",
+                    "description": "The interval length of the timer"
+                }
+            }
+        },
         "commands": [
             {
                 "command": "extension.startTimer",
@@ -26,6 +48,11 @@
             {
                 "command": "extension.stopTimer",
                 "title": "Stop Timer",
+                "category": "Pomodoro"
+            },
+            {
+                "command": "extension.showAll",
+                "title": "Show all commands",
                 "category": "Pomodoro"
             }
         ]
