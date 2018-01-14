@@ -13,7 +13,12 @@ before_install:
 
 install:
   - npm install
-  - npm run vscode:prepublish
+  # - npm run vscode:prepublish
 
 script:
   - npm test --silent
+
+# language: node_js
+# node_js:
+#   - "7.9"
+# sudo: false
