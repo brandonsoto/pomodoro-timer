@@ -4,7 +4,7 @@ class PomodoroTimer {
     constructor(interval) {
         this.name = "Pomodoro";
         this.interval = interval;
-        this.timeout = undefined;
+        this.timeout = null;
         this.icon = '$(clock)';
         this.statusBarItem = this.createStatusBarItem();
     }
@@ -27,7 +27,7 @@ class PomodoroTimer {
             this.stop();
         };
 
-        if (this.timeout === undefined) {
+        if (!this.timeout) {
             console.log(this.name + ' is starting');
 
             this.timeout = setTimeout(onExpired, this.interval);
@@ -36,11 +36,11 @@ class PomodoroTimer {
     }
 
     stop() {
-        if (this.timeout !== undefined) {
+        if (this.timeout) {
             console.log(this.name + ' is stopping');
 
             clearTimeout(this.timeout);
-            this.timeout = undefined;
+            this.timeout = null;
             this.setStatusText("stopped", "red");
         }
     }
