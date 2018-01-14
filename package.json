@@ -1,7 +1,7 @@
 {
-    "name": "Pomodoro Timer",
-    "displayName": "Pomodoro-Timer",
-    "description": "Pomodoro Technique support.",
+    "name": "pomodoro-timer",
+    "displayName": "Pomodoro Timer",
+    "description": "Pomodoro Technique support",
     "version": "0.0.1",
     "publisher": "Brandon Soto",
     "engines": {
