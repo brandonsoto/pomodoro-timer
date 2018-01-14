@@ -6,10 +6,10 @@ class PomodoroTimer {
         this.interval = interval;
         this.timeout = null;
         this.icon = '$(clock)';
-        this.statusBarItem = this.createStatusBarItem();
+        this.statusBarItem = PomodoroTimer.createStatusBarItem();
     }
 
-    createStatusBarItem() {
+    static createStatusBarItem() {
         let statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
         statusBarItem.text = "";
         statusBarItem.show();
@@ -32,7 +32,11 @@ class PomodoroTimer {
 
             this.timeout = setTimeout(onExpired, this.interval);
             this.setStatusText("started", "green");
+
+            return true;
         }
+
+        return false;
     }
 
     stop() {
@@ -42,12 +46,19 @@ class PomodoroTimer {
             clearTimeout(this.timeout);
             this.timeout = null;
             this.setStatusText("stopped", "red");
+
+            return true;
         }
+
+        return false;
     }
 
     dispose() {
-        this.statusBarItem.hide();
-        this.statusBarItem.dispose();
+        if (this.statusBarItem) {
+            this.statusBarItem.hide();
+            this.statusBarItem.dispose();
+            this.statusBarItem = null;
+        }
     }
 };
 exports.PomodoroTimer = PomodoroTimer;
