@@ -1,15 +1,15 @@
 const vscode = require('vscode');
 const pomodoro = require('./pomodoro');
 
-const pomodoroTimer = new pomodoro.PomodoroTimer(5000);
+const pomodoroTimer = new pomodoro.PomodoroTimer(3000);
 
 function activate(context) {
     console.log(pomodoroTimer.name + ' now active');
 
-    let startTimer = vscode.commands.registerCommand('extension.startTimer', function () {
+    let startTimer = vscode.commands.registerCommand('extension.startTimer', () => {
         pomodoroTimer.start();
     });
-    let stopTimer = vscode.commands.registerCommand('extension.stopTimer', function () {
+    let stopTimer = vscode.commands.registerCommand('extension.stopTimer', () => {
         pomodoroTimer.stop();
     });
 
