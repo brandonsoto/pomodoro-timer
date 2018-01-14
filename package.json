@@ -15,6 +15,7 @@
         "onCommand:extension.stopTimer"
     ],
     "main": "./extension",
+    "license": "MIT",
     "contributes": {
         "commands": [
             {
