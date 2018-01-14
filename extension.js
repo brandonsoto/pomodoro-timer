@@ -1,37 +1,52 @@
 const vscode = require('vscode');
 
-const EXTENSION_NAME = "Pomodoro";
-const INTERVAL = 5000;
+class PomodoroTimer {
+    constructor(interval) {
+        this.name = "Pomodoro";
+        this.interval = interval;
+        this.timeout = undefined;
+    }
+
+    start() {
+        let onExpired = () => {
+            this.timeout = undefined;
+            vscode.window.showInformationMessage(this.name + ' expired');
+            console.log(this.name + ' period expired!');
+        };
+
+        console.log(this.name + ' is starting');
+
+        if (this.timeout === undefined) {
+            this.timeout = setTimeout(onExpired, this.interval);
+        }
+    }
+
+    stop() {
+        console.log(this.name + ' is stopping');
+        if (this.timeout !== undefined) {
+            clearTimeout(this.timeout);
+            this.timeout = undefined;
+        }
+    }
+};
+
+const pomodoroTimer = new PomodoroTimer(5000);
 
 function activate(context) {
-    console.log(EXTENSION_NAME + ' is now active');
-    let timeout = undefined;
+    console.log(pomodoroTimer.name + ' now active');
 
     let startTimer = vscode.commands.registerCommand('extension.startTimer', function () {
-        console.log(EXTENSION_NAME + ' is starting timer');
-        if (timeout === undefined) {
-            timeout = setTimeout(onPomodoroExpired, INTERVAL);
-        }
+        pomodoroTimer.start();
     });
     let stopTimer = vscode.commands.registerCommand('extension.stopTimer', function () {
-        console.log(EXTENSION_NAME + ' is stopping timer');
-        if (timeout !== undefined) {
-            clearTimeout(timeout);
-            timeout = undefined;
-        }
+        pomodoroTimer.stop();
     });
-
-    function onPomodoroExpired() {
-        timeout = undefined;
-        vscode.window.showInformationMessage(EXTENSION_NAME + ' expired');
-        console.log(EXTENSION_NAME + ' period expired!');
-    }
 
     context.subscriptions.push([startTimer, stopTimer]);
 }
 exports.activate = activate;
 
 function deactivate() {
-    console.log(EXTENSION_NAME + ' is deactivated');
+    console.log(pomodoroTimer.name + ' deactivated');
 }
 exports.deactivate = deactivate;
