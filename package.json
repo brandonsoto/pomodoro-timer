@@ -19,12 +19,12 @@
         "commands": [
             {
                 "command": "extension.startTimer",
-                "title": "Pomodoro: Start Timer",
+                "title": "Start Timer",
                 "category": "Pomodoro"
             },
             {
                 "command": "extension.stopTimer",
-                "title": "Pomodoro: Stop Timer",
+                "title": "Stop Timer",
                 "category": "Pomodoro"
             }
         ]
