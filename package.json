@@ -4,6 +4,14 @@
     "description": "Pomodoro Technique support",
     "version": "0.0.1",
     "publisher": "Brandon Soto",
+    "homepage": "https://github.com/brandonsoto/pomodoro-timer/blob/master/README.md",
+    "badges": [
+        {
+            "url": "https://travis-ci.org/brandonsoto/pomodoro-timer.svg?branch=master", 
+            "href": "https://travis-ci.org/brandonsoto/pomodoro-timer", 
+            "description": "build status"
+        }
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/brandonsoto/pomodoro-timer"
