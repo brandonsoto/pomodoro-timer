@@ -8,12 +8,9 @@ class DocumentDiffs {
 
         const fileName = document.fileName;
         if (this.documents.has(fileName)) {
-            const startLength = this.documents.get(fileName).startLength;
-            this.documents.set(fileName,
-                new DocumentDiff(startLength, document.lineCount));
+            this.documents.get(fileName).endLength = document.lineCount;
         } else {
-            this.documents.set(fileName,
-                new DocumentDiff(document.lineCount, document.lineCount));
+            this.documents.set(fileName, new DocumentDiff(document.lineCount, document.lineCount));
         }
     }
 
