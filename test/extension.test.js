@@ -25,21 +25,6 @@ suite("Extension Tests", function() {
         assert.equal(timer.statusBarItem.color, undefined);
     });
 
-    test("TimerSetStatusText", function () {
-        const timer = new pomodoro.PomodoroTimer(1);
-        const text = timer.icon + " " + timer.name + " test";
-        const color = "red";
-
-        assert.notEqual(timer.statusBarItem.text, text);
-        assert.notEqual(timer.statusBarItem.color, color);
-
-        timer.setStatusText("test", color);
-
-        assert.equal(timer.statusBarItem.text, text);
-        assert.equal(timer.statusBarItem.color, color);
-    });
-
-
     test("TimerStartWithNoTimeout", function () {
         const timer = new pomodoro.PomodoroTimer(1);
         assert.equal(timer.start(), true);

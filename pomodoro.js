@@ -1,38 +1,39 @@
 const vscode = require('vscode');
 
+function createStatusBarItem() {
+    let statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+    statusBarItem.text = "";
+    statusBarItem.command = "extension.showAll";
+    statusBarItem.show();
+    return statusBarItem;
+}
+
 class PomodoroTimer {
-    constructor(interval=3000) { // TODO: change default to 25 minutes for release
+    constructor(interval=5000) { // TODO: change default to 25 minutes for release
         this.name = "Pomodoro";
         this.interval = vscode.workspace.getConfiguration("pomodoro").get("interval", interval);
         this.timeout = null;
         this.icon = '$(clock)';
-        this.statusBarItem = PomodoroTimer.createStatusBarItem();
-    }
-
-    static createStatusBarItem() {
-        let statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-        statusBarItem.text = "";
-        statusBarItem.command = "extension.showAll";
-        statusBarItem.show();
-        return statusBarItem;
-    }
-
-    setStatusText(text, color="black") {
-        this.statusBarItem.text = this.icon + " " + this.name +  " " + text;
-        this.statusBarItem.color = color;
+        this.statusBarItem = createStatusBarItem();
+        this.endDate = null;
+        this.secondsLeft = null;
     }
 
     start() {
-        let onExpired = () => {
-            console.log(this.name + ' expired');
-            this.stop();
-        };
+        let onSecondElapsed = () => {
+            if (this.endDate) {
+                const timeLeft = Math.ceil( (this.endDate.getTime() - Date.now().valueOf()) / 1000 );
+                this.statusBarItem.text = this.icon + " " + timeLeft;
+            }
+        }
 
         if (!this.timeout) {
             console.log(this.name + ' is starting');
 
-            this.timeout = setTimeout(onExpired, this.interval);
-            this.setStatusText("started", "green");
+            this.endDate = new Date(Date.now().valueOf() + this.interval);
+            this.timeout = setTimeout(() => { this.stop(); }, this.interval);
+            this.secondsLeft = setInterval(onSecondElapsed, 1000);
+            this.statusBarItem.color = "green";
 
             return true;
         }
@@ -45,8 +46,11 @@ class PomodoroTimer {
             console.log(this.name + ' is stopping');
 
             clearTimeout(this.timeout);
+            clearInterval(this.secondsLeft);
+
+            this.statusBarItem.color = "red";
             this.timeout = null;
-            this.setStatusText("stopped", "red");
+            this.secondsLeft = null;
 
             return true;
         }
