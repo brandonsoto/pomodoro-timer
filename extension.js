@@ -20,7 +20,7 @@ function activate(context) {
         pomodoroTimer.resume();
     });
 
-    context.subscriptions.push([startTimer, stopTimer, pauseTimer]);
+    context.subscriptions.push([startTimer, stopTimer, pauseTimer, resumeTimer]);
 }
 exports.activate = activate;
 
