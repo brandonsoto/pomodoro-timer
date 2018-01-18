@@ -6,6 +6,3 @@ exports.STOP_TIMER_CMD = STOP_TIMER_CMD;
 
 const PAUSE_TIMER_CMD = "extension.pauseTimer";
 exports.PAUSE_TIMER_CMD = PAUSE_TIMER_CMD;
-
-const RESUME_TIMER_CMD = "extension.resumeTimer";
-exports.RESUME_TIMER_CMD = RESUME_TIMER_CMD;

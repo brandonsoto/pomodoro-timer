@@ -2,12 +2,6 @@ const vscode = require('vscode');
 const commands = require('./commands');
 const SECOND_IN_MILLISECONDS = 1000;
 
-function createStatusBarItem() {
-    let statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-    statusBarItem.show();
-    return statusBarItem;
-}
-
 var TimerState = {
     UNKNOWN: 0,
     INITIALIZED: 1,
@@ -43,10 +37,11 @@ class PomodoroTimer {
         this.interval = vscode.workspace.getConfiguration("pomodoro").get("interval", interval);
         this.timeRemaining = this.interval;
         this.timeout = 0;
-        this.statusBarItem = createStatusBarItem();
         this.endDate = new Date();
         this.secondInterval = 0;
         this.state = TimerState.INITIALIZED;
+        this.statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+        this.statusBarItem.show();
         this.formatStatusBar();
     }
 
@@ -62,7 +57,6 @@ class PomodoroTimer {
         this.formatStatusBar();
     }
 
-    //TODO: should there be any other start states?
     inStartableState() {
         return TimerState.STOPPED === this.state
             || TimerState.INITIALIZED === this.state
@@ -109,16 +103,6 @@ class PomodoroTimer {
         return true;
     }
 
-    resume() {
-        if (!this.inResumableState()) { return false; }
-
-        console.log(this.name + " is resuming");
-
-        this.start();
-
-        return true;
-    }
-
     pause() {
         if (!this.inPausableState()) { return false; }
 
@@ -127,7 +111,7 @@ class PomodoroTimer {
         clearTimeout(this.timeout);
         clearInterval(this.secondInterval);
 
-        this.setState(TimerState.PAUSED, commands.RESUME_TIMER_CMD);
+        this.setState(TimerState.PAUSED, commands.START_TIMER_CMD);
 
         return true;
     }

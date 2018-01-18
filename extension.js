@@ -16,9 +16,6 @@ function activate(context) {
     let stopTimer = vscode.commands.registerCommand(commands.STOP_TIMER_CMD, () => {
         pomodoroTimer.stop();
     });
-    let resumeTimer = vscode.commands.registerCommand(commands.RESUME_TIMER_CMD, () => {
-        pomodoroTimer.resume();
-    });
 
     context.subscriptions.push([startTimer, stopTimer, pauseTimer, resumeTimer]);
 }
