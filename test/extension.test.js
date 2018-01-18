@@ -19,9 +19,10 @@ suite("Extension Tests", function() {
         const timer = new pomodoro.PomodoroTimer(1);
         assert.equal(timer.name, "Pomodoro");
         assert.equal(timer.interval, 1);
+        assert.equal(timer.timeRemaining, 1);
         assert.equal(timer.timeout, 0);
-        assert.equal(timer.secondsLeft, 0);
-        assert.equal(timer.statusBarItem.text, "$(triangle-right) 0");
+        assert.equal(timer.secondInterval, 0);
+        assert.equal(timer.statusBarItem.text, "$(triangle-right) 0 (initialized)");
         assert.equal(timer.statusBarItem.color, undefined);
         assert.equal(timer.state, pomodoro.TimerState.INITIALIZED);
     });

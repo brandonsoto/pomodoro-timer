@@ -1,5 +1,6 @@
 const vscode = require('vscode');
 const commands = require('./commands');
+const SECOND_IN_MILLISECONDS = 1000;
 
 function createStatusBarItem() {
     let statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
@@ -12,34 +13,60 @@ var TimerState = {
     INITIALIZED: 1,
     RUNNING: 2,
     PAUSED: 3,
-    FINISHED: 4,
-    RESTARTED: 5,
-    DISPOSED: 6
+    STOPPED: 4,
+    DISPOSED: 5
 }
 exports.TimerState = TimerState;
+
+function stateToString(state) {
+    switch(state) {
+        case TimerState.UNKNOWN:
+            return "unknown";
+        case TimerState.INITIALIZED:
+            return "initialized";
+        case TimerState.RUNNING:
+            return "running";
+        case TimerState.PAUSED:
+            return "paused";
+        case TimerState.STOPPED:
+            return "stopped";
+        case TimerState.DISPOSED:
+            return "disposed";
+        default:
+            return "unknown";
+    }
+}
 
 class PomodoroTimer {
     constructor(interval=5000) { // TODO: change default to 25 minutes for release
         this.name = "Pomodoro";
         this.interval = vscode.workspace.getConfiguration("pomodoro").get("interval", interval);
+        this.timeRemaining = this.interval;
         this.timeout = 0;
         this.statusBarItem = createStatusBarItem();
         this.endDate = new Date();
-        this.secondsLeft = 0;
+        this.secondInterval = 0;
         this.state = TimerState.INITIALIZED;
         this.formatStatusBar();
     }
 
     formatStatusBar() {
-        const timeLeft = Math.ceil( (this.endDate.getTime() - Date.now().valueOf()) / 1000 ); // TODO: this should be formatted like 00:00
+        const timeLeft = Math.ceil( (this.endDate.getTime() - Date.now().valueOf()) / SECOND_IN_MILLISECONDS ); // TODO: this should be formatted like 00:00
         const icon = TimerState.RUNNING === this.state ? "$(primitive-square)" : "$(triangle-right)";
-        this.statusBarItem.text = icon + " " + timeLeft;
+        this.statusBarItem.text = icon + " " + timeLeft + " (" + stateToString(this.state) + ")";
+    }
+
+    setState(state, statusBarCommand) {
+        this.state = state;
+        this.statusBarItem.command = statusBarCommand;
+        this.formatStatusBar();
     }
 
     //TODO: should there be any other start states?
     inStartableState() {
-        return TimerState.FINISHED === this.state
-            || TimerState.INITIALIZED === this.state;
+        return TimerState.STOPPED === this.state
+            || TimerState.INITIALIZED === this.state
+            || TimerState.PAUSED === this.state;
     }
 
     inPausableState() {
@@ -47,7 +74,8 @@ class PomodoroTimer {
     }
 
     inStoppableState() {
-        return TimerState.RUNNING === this.state;
+        return TimerState.RUNNING === this.state
+            || TimerState.PAUSED === this.state;
     }
 
     inResumableState() {
@@ -66,56 +94,58 @@ class PomodoroTimer {
                 });
         };
 
-        let onSecondElapsed = () => { this.formatStatusBar(); };
+        let onSecondElapsed = () => { 
+            this.timeRemaining -= SECOND_IN_MILLISECONDS;
+            this.formatStatusBar();
+        };
 
         console.log(this.name + ' is starting');
 
-        this.state = TimerState.RUNNING;
-        this.endDate = new Date(Date.now().valueOf() + this.interval);
-        this.timeout = setTimeout(onTimeout, this.interval);
-        this.secondsLeft = setInterval(onSecondElapsed, 1000);
-        this.statusBarItem.command = commands.STOP_TIMER_CMD;
-        this.formatStatusBar();
+        this.endDate = new Date(Date.now().valueOf() + this.timeRemaining);
+        this.timeout = setTimeout(onTimeout, this.timeRemaining);
+        this.secondInterval = setInterval(onSecondElapsed, SECOND_IN_MILLISECONDS);
+        this.setState(TimerState.RUNNING, commands.PAUSE_TIMER_CMD);
 
         return true;
     }
 
     resume() {
-        // TODO: implement
         if (!this.inResumableState()) { return false; }
+
         console.log(this.name + " is resuming");
+
+        this.start();
+
         return true;
     }
 
     pause() {
-        // TODO: implement
         if (!this.inPausableState()) { return false; }
 
         console.log(this.name + ' is pausing');
 
-        this.state = TimerState.PAUSED;
-        this.statusBarItem.command = commands.RESUME_TIMER_CMD;
-        this.formatStatusBar();
-
         clearTimeout(this.timeout);
-        clearInterval(this.secondsLeft);
+        clearInterval(this.secondInterval);
+
+        this.setState(TimerState.PAUSED, commands.RESUME_TIMER_CMD);
 
         return true;
     }
 
+    // TODO(brandon): should stop() be public? It's a tad confusing to have pause() and stop() together. Perhaps just restart()?
     stop() {
         if (!this.inStoppableState()) { return false; }
 
         console.log(this.name + ' is stopping');
 
         clearTimeout(this.timeout);
-        clearInterval(this.secondsLeft);
+        clearInterval(this.secondInterval);
 
-        this.state = TimerState.FINISHED;
         this.timeout = 0;
-        this.secondsLeft = 0;
-        this.statusBarItem.command = commands.START_TIMER_CMD;
-        this.formatStatusBar();
+        this.secondInterval = 0;
+        this.timeRemaining = 0;
+        this.setState(TimerState.STOPPED, commands.START_TIMER_CMD);
+        this.timeRemaining = this.interval;
 
         return true;
     }
