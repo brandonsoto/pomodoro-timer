@@ -62,11 +62,6 @@
                 "command": "extension.pauseTimer",
                 "title": "Pause Timer",
                 "category": "Pomodoro"
-            },
-            {
-                "command": "extension.resumeTimer",
-                "title": "Resume Timer",
-                "category": "Pomodoro"
             }
         ]
     },
