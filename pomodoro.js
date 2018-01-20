@@ -2,7 +2,6 @@ const vscode = require('vscode');
 const commands = require('./commands');
 const MILLISECONDS_IN_SECOND = 1000;
 const SECONDS_IN_MINUTE = 60;
-// TODO: remove this line
 
 // TODO: might want to put state data/logic into its own class
 var TimerState = {
