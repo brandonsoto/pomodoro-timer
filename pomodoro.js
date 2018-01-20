@@ -57,27 +57,27 @@ class PomodoroTimer {
         this.formatStatusBar();
     }
 
-    inStartableState() {
+    isStartable() {
         return TimerState.STOPPED === this.state
             || TimerState.INITIALIZED === this.state
             || TimerState.PAUSED === this.state;
     }
 
-    inPausableState() {
+    isPauseable() {
         return TimerState.RUNNING === this.state;
     }
 
-    inStoppableState() {
+    isStoppable() {
         return TimerState.RUNNING === this.state
             || TimerState.PAUSED === this.state;
     }
 
-    inResumableState() {
+    isResumable() {
         return TimerState.PAUSED === this.state;
     }
 
     start() {
-        if (!this.inStartableState()) { return false; }
+        if (!this.isStartable()) { return false; }
 
         let onTimeout = () => {
             this.stop();
@@ -104,7 +104,7 @@ class PomodoroTimer {
     }
 
     pause() {
-        if (!this.inPausableState()) { return false; }
+        if (!this.isPauseable()) { return false; }
 
         console.log(this.name + ' is pausing');
 
@@ -118,7 +118,7 @@ class PomodoroTimer {
 
     // TODO(brandon): should stop() be public? It's a tad confusing to have pause() and stop() together. Perhaps just restart()?
     stop() {
-        if (!this.inStoppableState()) { return false; }
+        if (!this.isStoppable()) { return false; }
 
         console.log(this.name + ' is stopping');
 

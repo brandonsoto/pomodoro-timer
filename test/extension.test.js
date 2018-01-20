@@ -35,56 +35,56 @@ suite("Extension Tests", function() {
     test("Timer_InStartableStateWithStartableStates", function () {
         startableStates.forEach((state) => {
             timer.state = state;
-            assert.equal(timer.inStartableState(), true);
+            assert.equal(timer.isStartable(), true);
         });
     });
 
     test("Timer_InStartableStateWithNonStartableStates", function () {
         nonStartableStates.forEach((state) => {
             timer.state = state;
-            assert.equal(timer.inStartableState(), false);
+            assert.equal(timer.isStartable(), false);
         });
     });
 
     test("Timer_InPauseableStateWithPausableStates", function () {
         pauseableStates.forEach((state) => {
             timer.state = state;
-            assert.equal(timer.inPausableState(), true);
+            assert.equal(timer.isPauseable(), true);
         });
     });
 
     test("Timer_InPauseableStateWithNonPausableStates", function () {
         nonPauseableStates.forEach((state) => {
             timer.state = state;
-            assert.equal(timer.inPausableState(), false);
+            assert.equal(timer.isPauseable(), false);
         });
     });
 
     test("Timer_InStoppableStateWithStoppableStates", function () {
         stoppableStates.forEach((state) => {
             timer.state = state;
-            assert.equal(timer.inStoppableState(), true);
+            assert.equal(timer.isStoppable(), true);
         });
     });
 
     test("Timer_InStoppableStateWithNonStoppableStates", function () {
         nonStoppableStates.forEach((state) => {
             timer.state = state;
-            assert.equal(timer.inStoppableState(), false);
+            assert.equal(timer.isStoppable(), false);
         });
     });
 
     test("Timer_InResumableStateWithResumableStates", function () {
         resumableStates.forEach((state) => {
             timer.state = state;
-            assert.equal(timer.inResumableState(), true);
+            assert.equal(timer.isResumable(), true);
         });
     });
 
     test("Timer_InResumableStateWithNonResumableState", function () {
         nonResumableStates.forEach((state) => {
             timer.state = state;
-            assert.equal(timer.inResumableState(), false);
+            assert.equal(timer.isResumable(), false);
         });
     });
 
