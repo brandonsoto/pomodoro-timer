@@ -1,6 +1,7 @@
 const vscode = require('vscode');
 const commands = require('./commands');
-const SECOND_IN_MILLISECONDS = 1000;
+const MILLISECONDS_IN_SECOND = 1000;
+const SECONDS_IN_MINUTE = 60;
 
 // TODO: might want to put state data/logic into its own class
 var TimerState = {
@@ -47,11 +48,22 @@ function stateToString(state) {
     }
 }
 
+function millisecondsToMMSS (milliseconds) {
+    let totalSeconds = Math.round(milliseconds / MILLISECONDS_IN_SECOND);
+    let minutes = Math.floor(totalSeconds / SECONDS_IN_MINUTE);
+    let seconds = Math.floor(totalSeconds - (minutes * SECONDS_IN_MINUTE));
+
+    if (minutes < 10) {minutes = "0" + minutes; }
+    if (seconds < 10) {seconds = "0" + seconds; }
+
+    return minutes + ':' + seconds;
+}
+
 class PomodoroTimer {
     constructor(interval=5000) { // TODO: change default to 25 minutes for release
         this.name = "Pomodoro";
         this.interval = vscode.workspace.getConfiguration("pomodoro").get("interval", interval);
-        this.timeRemaining = this.interval;
+        this.millisecondsRemaining = this.interval;
         this.timeout = 0;
         this.endDate = new Date();
         this.secondInterval = 0;
@@ -62,9 +74,8 @@ class PomodoroTimer {
     }
 
     formatStatusBar() {
-        const timeLeft = Math.ceil( this.timeRemaining / SECOND_IN_MILLISECONDS ); // TODO: this should be formatted like 00:00
         const icon = TimerState.RUNNING === this.state ? "$(primitive-square)" : "$(triangle-right)";
-        this.statusBarItem.text = icon + " " + timeLeft + " (" + stateToString(this.state) + ")";
+        this.statusBarItem.text = icon + " " + millisecondsToMMSS(this.millisecondsRemaining) + " (" + stateToString(this.state) + ")";
     }
 
     setState(state, statusBarCommand) {
@@ -105,15 +116,15 @@ class PomodoroTimer {
         };
 
         let onSecondElapsed = () => { 
-            this.timeRemaining -= SECOND_IN_MILLISECONDS;
+            this.millisecondsRemaining -= MILLISECONDS_IN_SECOND;
             this.formatStatusBar();
         };
 
         console.log(this.name + ' is starting');
 
-        this.endDate = new Date(Date.now().valueOf() + this.timeRemaining);
-        this.timeout = setTimeout(onTimeout, this.timeRemaining);
-        this.secondInterval = setInterval(onSecondElapsed, SECOND_IN_MILLISECONDS);
+        this.endDate = new Date(Date.now().valueOf() + this.millisecondsRemaining);
+        this.timeout = setTimeout(onTimeout, this.millisecondsRemaining);
+        this.secondInterval = setInterval(onSecondElapsed, MILLISECONDS_IN_SECOND);
         this.setState(TimerState.RUNNING, commands.PAUSE_TIMER_CMD);
 
         return true;
@@ -143,9 +154,9 @@ class PomodoroTimer {
 
         this.timeout = 0;
         this.secondInterval = 0;
-        this.timeRemaining = 0;
+        this.millisecondsRemaining = 0;
         this.setState(TimerState.STOPPED, commands.START_TIMER_CMD);
-        this.timeRemaining = this.interval;
+        this.millisecondsRemaining = this.interval;
 
         return true;
     }

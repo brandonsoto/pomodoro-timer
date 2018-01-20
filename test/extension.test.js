@@ -6,8 +6,8 @@ const cmd = require('../commands');
 let timer = new p.PomodoroTimer(1);
 
 Set.prototype.difference = function(setB) {
-    var difference = new Set(this);
-    for (var elem of setB) {
+    let difference = new Set(this);
+    for (let elem of setB) {
         difference.delete(elem);
     }
     return difference;
@@ -22,10 +22,10 @@ suite("Extension Tests", function() {
     test("Timer_Constructor", function () {
         assert.equal(timer.name, "Pomodoro");
         assert.equal(timer.interval, 1);
-        assert.equal(timer.timeRemaining, 1);
+        assert.equal(timer.millisecondsRemaining, 1);
         assert.equal(timer.timeout, 0);
         assert.equal(timer.secondInterval, 0);
-        assert.equal(timer.statusBarItem.text, "$(triangle-right) 1 (initialized)");
+        assert.equal(timer.statusBarItem.text, "$(triangle-right) 00:00 (initialized)");
         assert.equal(timer.statusBarItem.color, undefined);
         assert.equal(timer.state, p.TimerState.INITIALIZED);
     });
@@ -95,7 +95,7 @@ suite("Extension Tests", function() {
         timer.setState(state, command);
         assert.equal(timer.state, state);
         assert.equal(timer.statusBarItem.command, command);
-        assert.equal(timer.statusBarItem.text, "$(primitive-square) 0 (running)");
+        assert.equal(timer.statusBarItem.text, "$(primitive-square) 00:00 (running)");
     });
 
     test("Timer_Start_WithStartableState", function () {
@@ -106,7 +106,7 @@ suite("Extension Tests", function() {
             assert.equal(timer.start(), true);
             assert.equal(timer.state, p.TimerState.RUNNING);
             assert.equal(timer.statusBarItem.command, cmd.PAUSE_TIMER_CMD);
-            assert.equal(timer.statusBarItem.text, "$(primitive-square) 0 (running)");
+            assert.equal(timer.statusBarItem.text, "$(primitive-square) 00:00 (running)");
         });
     });
 
@@ -118,7 +118,7 @@ suite("Extension Tests", function() {
             assert.equal(timer.start(), false);
             assert.equal(timer.state, state);
             assert.equal(timer.statusBarItem.command, undefined);
-            assert.equal(timer.statusBarItem.text, "$(triangle-right) 0 (initialized)");
+            assert.equal(timer.statusBarItem.text, "$(triangle-right) 00:00 (initialized)");
         });
     });
 
@@ -130,7 +130,7 @@ suite("Extension Tests", function() {
             assert.equal(timer.pause(), true);
             assert.equal(timer.state, p.TimerState.PAUSED);
             assert.equal(timer.statusBarItem.command, cmd.START_TIMER_CMD);
-            assert.equal(timer.statusBarItem.text, "$(triangle-right) 0 (paused)");
+            assert.equal(timer.statusBarItem.text, "$(triangle-right) 00:00 (paused)");
         });
     });
 
@@ -142,7 +142,7 @@ suite("Extension Tests", function() {
             assert.equal(timer.pause(), false);
             assert.equal(timer.state, state);
             assert.equal(timer.statusBarItem.command, undefined);
-            assert.equal(timer.statusBarItem.text, "$(triangle-right) 0 (initialized)");
+            assert.equal(timer.statusBarItem.text, "$(triangle-right) 00:00 (initialized)");
         });
     });
 
@@ -154,7 +154,7 @@ suite("Extension Tests", function() {
             assert.equal(timer.stop(), true);
             assert.equal(timer.state, p.TimerState.STOPPED);
             assert.equal(timer.statusBarItem.command, cmd.START_TIMER_CMD);
-            assert.equal(timer.statusBarItem.text, "$(triangle-right) 0 (stopped)");
+            assert.equal(timer.statusBarItem.text, "$(triangle-right) 00:00 (stopped)");
         });
     });
 
@@ -166,7 +166,7 @@ suite("Extension Tests", function() {
             assert.equal(timer.stop(), false);
             assert.equal(timer.state, state);
             assert.equal(timer.statusBarItem.command, undefined);
-            assert.equal(timer.statusBarItem.text, "$(triangle-right) 0 (initialized)");
+            assert.equal(timer.statusBarItem.text, "$(triangle-right) 00:00 (initialized)");
         });
     });
 
