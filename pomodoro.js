@@ -2,6 +2,7 @@ const vscode = require('vscode');
 const commands = require('./commands');
 const SECOND_IN_MILLISECONDS = 1000;
 
+// TODO: might want to put state data/logic into its own class
 var TimerState = {
     UNKNOWN: 0,
     INITIALIZED: 1,
@@ -11,6 +12,21 @@ var TimerState = {
     DISPOSED: 5
 }
 exports.TimerState = TimerState;
+
+const STARTABLE_STATES = new Set([TimerState.RUNNING, TimerState.STOPPED, TimerState.INITIALIZED, TimerState.PAUSED]);
+exports.STARTABLE_STATES = STARTABLE_STATES;
+
+const STOPPABLE_STATES = new Set([TimerState.RUNNING, TimerState.PAUSED]);
+exports.STOPPABLE_STATES = STOPPABLE_STATES;
+
+const PAUSEABLE_STATES = new Set([TimerState.RUNNING]);
+exports.PAUSEABLE_STATES = PAUSEABLE_STATES;
+
+const RESUMEABLE_STATES = new Set([TimerState.PAUSED]);
+exports.RESUMEABLE_STATES = RESUMEABLE_STATES;
+
+const ALL_STATES = new Set([TimerState.UNKNOWN, TimerState.INITIALIZED, TimerState.RUNNING, TimerState.PAUSED, TimerState.STOPPED, TimerState.DISPOSED]);
+exports.ALL_STATES = ALL_STATES;
 
 function stateToString(state) {
     switch(state) {
@@ -46,7 +62,7 @@ class PomodoroTimer {
     }
 
     formatStatusBar() {
-        const timeLeft = Math.ceil( (this.endDate.getTime() - Date.now().valueOf()) / SECOND_IN_MILLISECONDS ); // TODO: this should be formatted like 00:00
+        const timeLeft = Math.ceil( this.timeRemaining / SECOND_IN_MILLISECONDS ); // TODO: this should be formatted like 00:00
         const icon = TimerState.RUNNING === this.state ? "$(primitive-square)" : "$(triangle-right)";
         this.statusBarItem.text = icon + " " + timeLeft + " (" + stateToString(this.state) + ")";
     }
@@ -58,33 +74,33 @@ class PomodoroTimer {
     }
 
     isStartable() {
-        return TimerState.STOPPED === this.state
-            || TimerState.INITIALIZED === this.state
-            || TimerState.PAUSED === this.state;
+        return STARTABLE_STATES.has(this.state);
     }
 
     isPauseable() {
-        return TimerState.RUNNING === this.state;
+        return PAUSEABLE_STATES.has(this.state);
     }
 
     isStoppable() {
-        return TimerState.RUNNING === this.state
-            || TimerState.PAUSED === this.state;
+        return STOPPABLE_STATES.has(this.state);
     }
 
     isResumable() {
-        return TimerState.PAUSED === this.state;
+        return RESUMEABLE_STATES.has(this.state);
     }
 
     start() {
         if (!this.isStartable()) { return false; }
+        if (this.state !== TimerState.PAUSED) { this.stop(); }
 
         let onTimeout = () => {
             this.stop();
             vscode.window.showInformationMessage("Pomodoro has expired. Enjoy your break!", "Restart")
                 .then((value) => {
-                    if ('Restart' === value)
+                    if ('Restart' === value) {
+                        console.log(this.name + " should be restarting...");
                         vscode.commands.executeCommand(commands.START_TIMER_CMD);
+                    }
                 });
         };
 

@@ -42,8 +42,8 @@
             "properties": {
                 "pomodoro.interval": {
                     "type": "int",
-                    "default": "1500000",
-                    "description": "The interval length of the timer"
+                    "default": "25",
+                    "description": "The number of minutes in a Pomodoro"
                 }
             }
         },
