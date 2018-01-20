@@ -5,8 +5,6 @@ const commands = require('./commands');
 const pomodoroTimer = new pomodoro.PomodoroTimer();
 
 function activate(context) {
-    console.log(pomodoroTimer.name + ' now active');
-
     let startTimer = vscode.commands.registerCommand(commands.START_TIMER_CMD, () => {
         pomodoroTimer.start();
     });
@@ -22,8 +20,6 @@ function activate(context) {
 exports.activate = activate;
 
 function deactivate() {
-    console.log(pomodoroTimer.name + ' deactivated');
-
     pomodoroTimer.dispose();
 }
 exports.deactivate = deactivate;

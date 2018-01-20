@@ -109,7 +109,6 @@ class PomodoroTimer {
             vscode.window.showInformationMessage("Pomodoro has expired. Enjoy your break!", "Restart")
                 .then((value) => {
                     if ('Restart' === value) {
-                        console.log(this.name + " should be restarting...");
                         vscode.commands.executeCommand(commands.START_TIMER_CMD);
                     }
                 });
@@ -119,8 +118,6 @@ class PomodoroTimer {
             this.millisecondsRemaining -= MILLISECONDS_IN_SECOND;
             this.formatStatusBar();
         };
-
-        console.log(this.name + ' is starting');
 
         this.endDate = new Date(Date.now().valueOf() + this.millisecondsRemaining);
         this.timeout = setTimeout(onTimeout, this.millisecondsRemaining);
@@ -133,8 +130,6 @@ class PomodoroTimer {
     pause() {
         if (!this.isPauseable()) { return false; }
 
-        console.log(this.name + ' is pausing');
-
         clearTimeout(this.timeout);
         clearInterval(this.secondInterval);
 
@@ -146,8 +141,6 @@ class PomodoroTimer {
     // TODO(brandon): should stop() be public? It's a tad confusing to have pause() and stop() together. Perhaps just restart()?
     stop() {
         if (!this.isStoppable()) { return false; }
-
-        console.log(this.name + ' is stopping');
 
         clearTimeout(this.timeout);
         clearInterval(this.secondInterval);
