@@ -54,13 +54,13 @@
                 "category": "Pomodoro"
             },
             {
-                "command": "extension.stopTimer",
-                "title": "Stop Timer",
+                "command": "extension.pauseTimer",
+                "title": "Pause Timer",
                 "category": "Pomodoro"
             },
             {
-                "command": "extension.pauseTimer",
-                "title": "Pause Timer",
+                "command": "extension.resetTimer",
+                "title": "Reset Timer",
                 "category": "Pomodoro"
             }
         ]

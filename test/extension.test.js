@@ -3,7 +3,7 @@ const vscode = require('vscode');
 const p = require('../pomodoro');
 const cmd = require('../commands');
 
-let timer = new p.PomodoroTimer(1);
+let timer = new p.PomodoroTimer(0);
 
 Set.prototype.difference = function(setB) {
     let difference = new Set(this);
@@ -16,18 +16,17 @@ Set.prototype.difference = function(setB) {
 const NON_STARTABLE_STATES = p.ALL_STATES.difference(p.STARTABLE_STATES);
 const NON_STOPPABLE_STATES = p.ALL_STATES.difference(p.STOPPABLE_STATES);
 const NON_PAUSEABLE_STATES = p.ALL_STATES.difference(p.PAUSEABLE_STATES);
-const NON_RESUMEABLE_STATES = p.ALL_STATES.difference(p.RESUMEABLE_STATES);
 
 suite("Extension Tests", function() {
     test("Timer_Constructor", function () {
         assert.equal(timer.name, "Pomodoro");
-        assert.equal(timer.interval, 1);
-        assert.equal(timer.millisecondsRemaining, 1);
+        assert.equal(timer.interval, 0);
+        assert.equal(timer.millisecondsRemaining, 0);
         assert.equal(timer.timeout, 0);
         assert.equal(timer.secondInterval, 0);
-        assert.equal(timer.statusBarItem.text, "$(triangle-right) 00:00 (initialized)");
+        assert.equal(timer.statusBarItem.text, "$(triangle-right) 00:00 (ready)");
         assert.equal(timer.statusBarItem.color, undefined);
-        assert.equal(timer.state, p.TimerState.INITIALIZED);
+        assert.equal(timer.state, p.TimerState.READY);
     });
 
     test("Timer_IsStartable_WithStartableStates", function () {
@@ -72,23 +71,7 @@ suite("Extension Tests", function() {
         });
     });
 
-    test("Timer_IsResumable_WithResumableStates", function () {
-        p.RESUMEABLE_STATES.forEach((state) => {
-            timer.state = state;
-            assert.equal(timer.isResumable(), true);
-        });
-    });
-
-    test("Timer_IsResumable_WithNonResumableState", function () {
-        NON_RESUMEABLE_STATES.forEach((state) => {
-            timer.state = state;
-            assert.equal(timer.isResumable(), false);
-        });
-    });
-
     test("Timer_setState", function () {
-        timer = new p.PomodoroTimer(0);
-
         const state = p.TimerState.RUNNING;
         const command = cmd.START_TIMER_CMD;
 
@@ -118,7 +101,7 @@ suite("Extension Tests", function() {
             assert.equal(timer.start(), false);
             assert.equal(timer.state, state);
             assert.equal(timer.statusBarItem.command, undefined);
-            assert.equal(timer.statusBarItem.text, "$(triangle-right) 00:00 (initialized)");
+            assert.equal(timer.statusBarItem.text, "$(triangle-right) 00:00 (ready)");
         });
     });
 
@@ -142,7 +125,7 @@ suite("Extension Tests", function() {
             assert.equal(timer.pause(), false);
             assert.equal(timer.state, state);
             assert.equal(timer.statusBarItem.command, undefined);
-            assert.equal(timer.statusBarItem.text, "$(triangle-right) 00:00 (initialized)");
+            assert.equal(timer.statusBarItem.text, "$(triangle-right) 00:00 (ready)");
         });
     });
 
@@ -152,9 +135,9 @@ suite("Extension Tests", function() {
         p.STOPPABLE_STATES.forEach((state) => {
             timer.state = state;
             assert.equal(timer.stop(), true);
-            assert.equal(timer.state, p.TimerState.STOPPED);
+            assert.equal(timer.state, p.TimerState.FINISHED);
             assert.equal(timer.statusBarItem.command, cmd.START_TIMER_CMD);
-            assert.equal(timer.statusBarItem.text, "$(triangle-right) 00:00 (stopped)");
+            assert.equal(timer.statusBarItem.text, "$(triangle-right) 00:00 (finished)");
         });
     });
 
@@ -166,7 +149,19 @@ suite("Extension Tests", function() {
             assert.equal(timer.stop(), false);
             assert.equal(timer.state, state);
             assert.equal(timer.statusBarItem.command, undefined);
-            assert.equal(timer.statusBarItem.text, "$(triangle-right) 00:00 (initialized)");
+            assert.equal(timer.statusBarItem.text, "$(triangle-right) 00:00 (ready)");
+        });
+    });
+
+    test("Timer_Reset", function () {
+        timer = new p.PomodoroTimer(0);
+
+        p.ALL_STATES.forEach((state) => {
+            timer.state = state;
+            assert.equal(timer.reset(), true);
+            assert.equal(timer.state, p.TimerState.READY);
+            assert.equal(timer.statusBarItem.command, cmd.START_TIMER_CMD);
+            assert.equal(timer.statusBarItem.text, "$(triangle-right) 00:00 (ready)");
         });
     });
 
@@ -181,5 +176,12 @@ suite("Extension Tests", function() {
         assert.doesNotThrow(() => { timer.dispose(); });
         assert.equal(timer.statusBarItem, null);
         assert.equal(timer.state, p.TimerState.DISPOSED);
+    });
+
+    test("Timer_Reset", function () {
+        timer = new p.PomodoroTimer(1);
+        timer.reset();
+
+
     });
 });
