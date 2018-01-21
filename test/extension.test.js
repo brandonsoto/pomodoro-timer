@@ -177,11 +177,4 @@ suite("Extension Tests", function() {
         assert.equal(timer.statusBarItem, null);
         assert.equal(timer.state, p.TimerState.DISPOSED);
     });
-
-    test("Timer_Reset", function () {
-        timer = new p.PomodoroTimer(1);
-        timer.reset();
-
-
-    });
 });
