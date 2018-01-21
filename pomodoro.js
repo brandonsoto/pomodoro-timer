@@ -2,6 +2,7 @@ const vscode = require('vscode');
 const commands = require('./commands');
 const MILLISECONDS_IN_SECOND = 1000;
 const SECONDS_IN_MINUTE = 60;
+const DEFAULT_TIMER_DURATION = 1500000; // 25 minutes in milliseconds
 
 // TODO: might want to put state data/logic into its own class
 var TimerState = {
@@ -57,9 +58,9 @@ function millisecondsToMMSS (milliseconds) {
 }
 
 class PomodoroTimer {
-    constructor(interval=5000) { // TODO: change default to 25 minutes for release
+    constructor(interval=DEFAULT_TIMER_DURATION) {
         this.name = "Pomodoro";
-        this.interval = vscode.workspace.getConfiguration("pomodoro").get("interval", interval);
+        this.interval = interval === DEFAULT_TIMER_DURATION ? vscode.workspace.getConfiguration("pomodoro").get("interval", DEFAULT_TIMER_DURATION) : interval;
         this.millisecondsRemaining = this.interval;
         this.timeout = 0;
         this.endDate = new Date();
@@ -67,10 +68,10 @@ class PomodoroTimer {
         this.state = TimerState.READY;
         this.statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
         this.statusBarItem.show();
-        this.formatStatusBar();
+        this.updateStatusBar();
     }
 
-    formatStatusBar() {
+    updateStatusBar() {
         const icon = TimerState.RUNNING === this.state ? "$(primitive-square)" : "$(triangle-right)";
         this.statusBarItem.text = icon + " " + millisecondsToMMSS(this.millisecondsRemaining) + " (" + stateToString(this.state) + ")";
     }
@@ -78,24 +79,14 @@ class PomodoroTimer {
     setState(state, statusBarCommand) {
         this.state = state;
         this.statusBarItem.command = statusBarCommand;
-        this.formatStatusBar();
+        this.updateStatusBar();
     }
 
-    isStartable() {
-        return STARTABLE_STATES.has(this.state);
-    }
+    isStartable() { return STARTABLE_STATES.has(this.state); }
 
-    isPauseable() {
-        return PAUSEABLE_STATES.has(this.state);
-    }
+    isPauseable() { return PAUSEABLE_STATES.has(this.state); }
 
-    isStoppable() {
-        return STOPPABLE_STATES.has(this.state);
-    }
-
-    isResumable() {
-        return RESUMEABLE_STATES.has(this.state);
-    }
+    isStoppable() { return STOPPABLE_STATES.has(this.state); }
 
     // starts/resumes the timer but does not reset it
     start() {
@@ -114,7 +105,7 @@ class PomodoroTimer {
 
         let onSecondElapsed = () => { 
             this.millisecondsRemaining -= MILLISECONDS_IN_SECOND;
-            this.formatStatusBar();
+            this.updateStatusBar();
         };
 
         this.endDate = new Date(Date.now().valueOf() + this.millisecondsRemaining);
