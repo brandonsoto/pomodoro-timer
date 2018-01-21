@@ -1,6 +1,6 @@
 # Pomodoro Timer 
 
-![Version](https://vsmarketplacebadge.apphb.com/version/brandonsoto.popomodoro-timer.svg)
+![Version](https://vsmarketplacebadge.apphb.com/version/brandonsoto.pomodoro-timer.svg)
 [![Build Status](https://travis-ci.org/brandonsoto/pomodoro-timer.svg?branch=master)](https://travis-ci.org/brandonsoto/pomodoro-timer)
 [![Maintainability](https://api.codeclimate.com/v1/badges/ba73e4050c4a2636c527/maintainability)](https://codeclimate.com/github/brandonsoto/pomodoro-timer/maintainability)
 
