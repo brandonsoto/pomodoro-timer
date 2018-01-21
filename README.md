@@ -4,6 +4,8 @@ Pomodoro Timer is an extension for VSCode. It puts a timer in your status bar so
 can develop using the Pomodoro Technique. You can start, pause, and reset the timer with
 more features coming soon.
 
+![Pomodoro extension in action](pomodoro_in_action.gif)
+
 ## Features
 
 - Start timer
