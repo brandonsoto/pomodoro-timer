@@ -57,7 +57,7 @@
             "properties": {
                 "pomodoro.interval": {
                     "type": "int",
-                    "default": "25",
+                    "default": 25,
                     "description": "The number of minutes in a Pomodoro"
                 }
             }
