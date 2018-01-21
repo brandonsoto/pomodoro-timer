@@ -41,7 +41,7 @@
     "main": "./src/extension",
     "license": "MIT",
     "contributes": {
-        "configurations": {
+        "configuration": {
             "type": "object",
             "title": "Pomodoro",
             "properties": {
