@@ -60,7 +60,7 @@ function millisecondsToMMSS (milliseconds) {
 class PomodoroTimer {
     constructor(interval=DEFAULT_TIMER_DURATION) {
         this.name = "Pomodoro";
-        this.interval = interval === DEFAULT_TIMER_DURATION ? vscode.workspace.getConfiguration("pomodoro").get("interval", DEFAULT_TIMER_DURATION) : interval;
+        this.interval = interval === DEFAULT_TIMER_DURATION ? vscode.workspace.getConfiguration("pomodoro").get("interval", DEFAULT_TIMER_DURATION) * MILLISECONDS_IN_SECOND * SECONDS_IN_MINUTE : interval;
         this.millisecondsRemaining = this.interval;
         this.timeout = 0;
         this.endDate = new Date();
