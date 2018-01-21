@@ -33,7 +33,7 @@
     "activationEvents": [
         "*"
     ],
-    "main": "./extension",
+    "main": "./src/extension",
     "license": "MIT",
     "contributes": {
         "configurations": {

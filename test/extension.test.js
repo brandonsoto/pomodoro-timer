@@ -1,7 +1,7 @@
 const assert = require('assert');
 const vscode = require('vscode');
-const p = require('../pomodoro');
-const cmd = require('../commands');
+const p = require('../src/pomodoro');
+const cmd = require('../src/commands');
 
 let timer = new p.PomodoroTimer(0);
 
