@@ -1,65 +1,31 @@
 # Pomodoro Timer [![Build Status](https://travis-ci.org/brandonsoto/pomodoro-timer.svg?branch=master)](https://travis-ci.org/brandonsoto/pomodoro-timer) [![Maintainability](https://api.codeclimate.com/v1/badges/ba73e4050c4a2636c527/maintainability)](https://codeclimate.com/github/brandonsoto/pomodoro-timer/maintainability)
 
-This is the README for your extension "pomodoro-timer". After writing up a brief description, we recommend including the following sections.
+Pomodoro Timer is an extension for VSCode. It puts a timer in your status bar so that you
+can develop using the Pomodoro Technique. You can start, pause, and reset the timer with
+more features coming soon.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- Start timer
+- Pause timer
+- Reset timer
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+none
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
 This extension contributes the following settings:
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+- `pomodoro.interval`: The number of minutes in a Pomodoro
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+Soon to be discovered
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on OSX or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on OSX or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (OSX) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Initial release of Pomodoro Timer
