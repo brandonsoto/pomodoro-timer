@@ -2,13 +2,13 @@
     "name": "pomodoro-timer",
     "displayName": "Pomodoro Timer",
     "description": "Pomodoro Technique support",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "publisher": "brandonsoto",
     "homepage": "https://github.com/brandonsoto/pomodoro-timer/blob/master/README.md",
     "badges": [
         {
             "url": "https://vsmarketplacebadge.apphb.com/version/brandonsoto.popomodoro-timer.svg",
-            "href":  "https://vsmarketplacebadge.apphb.com/version/brandonsoto.popomodoro-timer.svg",
+            "href": "https://vsmarketplacebadge.apphb.com/version/brandonsoto.popomodoro-timer.svg",
             "description": "version"
         },
         {
