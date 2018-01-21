@@ -7,9 +7,19 @@
     "homepage": "https://github.com/brandonsoto/pomodoro-timer/blob/master/README.md",
     "badges": [
         {
+            "url": "https://vsmarketplacebadge.apphb.com/version/brandonsoto.popomodoro-timer.svg",
+            "href":  "https://vsmarketplacebadge.apphb.com/version/brandonsoto.popomodoro-timer.svg",
+            "description": "version"
+        },
+        {
             "url": "https://travis-ci.org/brandonsoto/pomodoro-timer.svg?branch=master",
             "href": "https://travis-ci.org/brandonsoto/pomodoro-timer",
             "description": "build status"
+        },
+        {
+            "url": "https://api.codeclimate.com/v1/badges/ba73e4050c4a2636c527/maintainability",
+            "href": "https://api.codeclimate.com/v1/badges/ba73e4050c4a2636c527/maintainability",
+            "description": "maintainability status"
         }
     ],
     "repository": {
