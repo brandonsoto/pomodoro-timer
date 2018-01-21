@@ -2,13 +2,13 @@
     "name": "pomodoro-timer",
     "displayName": "Pomodoro Timer",
     "description": "Pomodoro Technique support",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "publisher": "brandonsoto",
     "homepage": "https://github.com/brandonsoto/pomodoro-timer/blob/master/README.md",
     "badges": [
         {
-            "url": "https://travis-ci.org/brandonsoto/pomodoro-timer.svg?branch=master", 
-            "href": "https://travis-ci.org/brandonsoto/pomodoro-timer", 
+            "url": "https://travis-ci.org/brandonsoto/pomodoro-timer.svg?branch=master",
+            "href": "https://travis-ci.org/brandonsoto/pomodoro-timer",
             "description": "build status"
         }
     ],
