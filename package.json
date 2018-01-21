@@ -35,7 +35,7 @@
     ],
     "icon": "images/icon.png",
     "galleryBanner": {
-        "color": "#C80000",
+        "color": "#333333",
         "theme": "dark"
     },
     "main": "./src/extension",
