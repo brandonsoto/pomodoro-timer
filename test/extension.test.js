@@ -100,7 +100,7 @@ suite("Extension Tests", function() {
             timer.state = state;
             assert.equal(timer.start(), false);
             assert.equal(timer.state, state);
-            assert.equal(timer.statusBarItem.command, undefined);
+            assert.equal(timer.statusBarItem.command, cmd.START_TIMER_CMD);
             assert.equal(timer.statusBarItem.text, "$(triangle-right) 00:00 (ready)");
         });
     });
@@ -124,7 +124,7 @@ suite("Extension Tests", function() {
             timer.state = state;
             assert.equal(timer.pause(), false);
             assert.equal(timer.state, state);
-            assert.equal(timer.statusBarItem.command, undefined);
+            assert.equal(timer.statusBarItem.command, cmd.START_TIMER_CMD);
             assert.equal(timer.statusBarItem.text, "$(triangle-right) 00:00 (ready)");
         });
     });
@@ -148,7 +148,7 @@ suite("Extension Tests", function() {
             timer.state = state;
             assert.equal(timer.stop(), false);
             assert.equal(timer.state, state);
-            assert.equal(timer.statusBarItem.command, undefined);
+            assert.equal(timer.statusBarItem.command, cmd.START_TIMER_CMD);
             assert.equal(timer.statusBarItem.text, "$(triangle-right) 00:00 (ready)");
         });
     });
