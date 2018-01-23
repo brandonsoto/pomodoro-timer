@@ -66,7 +66,7 @@ class PomodoroTimer {
         this.endDate = new Date();
         this.secondInterval = 0;
         this.state = TimerState.READY;
-        this.statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);
+        this.statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, Number.MIN_SAFE_INTEGER);
         this.statusBarItem.command = commands.START_TIMER_CMD;
         this.statusBarItem.show();
         this.updateStatusBar();
